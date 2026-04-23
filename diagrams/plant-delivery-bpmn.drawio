@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="4200" pageHeight="1900" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- TITLE BLOCK                                                 -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="title_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="80" y="20" width="3960" height="60" as="geometry" />
+    </mxCell>
+    <mxCell id="title_text" value="&lt;b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Plant Delivery &amp;amp; Office Inventory Management — BPMN 2.0 Process Diagram&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Version 1.0 | Date: 2026-04-23 | Author: LeonStoreyTCC&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="80" y="20" width="3960" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- POOL 1: Office Staff                                        -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="p1" value="Office Staff" style="swimlane;startSize=30;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=12;fontColor=#006EAF;" vertex="1" parent="1">
+      <mxGeometry x="80" y="100" width="3960" height="320" as="geometry" />
+    </mxCell>
+
+    <!-- Lane 1.1: Office Manager -->
+    <mxCell id="p1_l1" value="Office Manager" style="swimlane;startSize=120;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="p1">
+      <mxGeometry x="30" y="0" width="3930" height="160" as="geometry" />
+    </mxCell>
+
+    <!-- Start Event: Submit Order via Power Apps -->
+    <mxCell id="s_start_order" value="Submit Plant Order via Power Apps" style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=general;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontSize=10;" vertex="1" parent="p1_l1">
+      <mxGeometry x="140" y="55" width="50" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Confirm Receipt -->
+    <mxCell id="p1_l1_confirm" value="Office Confirms Receipt in Power Apps" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=user;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="p1_l1">
+      <mxGeometry x="2510" y="55" width="160" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- End Event: Order Fulfilled -->
+    <mxCell id="s_end_order" value="Order Fulfilled" style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;fontSize=10;" vertex="1" parent="p1_l1">
+      <mxGeometry x="2740" y="55" width="50" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Lane 1.2: Reception -->
+    <mxCell id="p1_l2" value="Reception" style="swimlane;startSize=120;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="p1">
+      <mxGeometry x="30" y="160" width="3930" height="160" as="geometry" />
+    </mxCell>
+
+    <!-- Reception: delivery confirmation notification (no active task in this lane for main process) -->
+    <mxCell id="p1_l2_note" value="Delivery confirmation received via Teams/Email" style="text;html=1;strokeColor=none;fillColor=#fff2cc;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=10;strokeColor=#d6b656;" vertex="1" parent="p1_l2">
+      <mxGeometry x="2510" y="60" width="200" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- POOL 2: Plant Delivery System (Power Apps / Dataverse)      -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="p2" value="Plant Delivery System (Power Apps / Dataverse)" style="swimlane;startSize=30;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=12;fontColor=#006600;" vertex="1" parent="1">
+      <mxGeometry x="80" y="440" width="3960" height="480" as="geometry" />
+    </mxCell>
+
+    <!-- Lane 2.1: Order Management -->
+    <mxCell id="p2_l1" value="Order Management" style="swimlane;startSize=120;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="p2">
+      <mxGeometry x="30" y="0" width="3930" height="160" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Order recorded in Dataverse -->
+    <mxCell id="p2_l1_record" value="Order Recorded in Dataverse (Orders Table)" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="p2_l1">
+      <mxGeometry x="280" y="55" width="180" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Lane 2.2: Inventory Management -->
+    <mxCell id="p2_l2" value="Inventory Management" style="swimlane;startSize=120;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="p2">
+      <mxGeometry x="30" y="160" width="3930" height="160" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Reserve stock, decrement -->
+    <mxCell id="p2_l2_reserve" value="Inventory Reserved, Stock Decremented" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="p2_l2">
+      <mxGeometry x="490" y="55" width="180" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Gateway: Is stock sufficient? -->
+    <mxCell id="p2_l2_gw_stock" value="Stock Sufficient?" style="rhombus;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rhombusPerimeter;background=gateway;symbol=exclusiveGw;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;verticalLabelPosition=bottom;verticalAlign=top;" vertex="1" parent="p2_l2">
+      <mxGeometry x="720" y="55" width="60" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- NO path: Trigger Reorder Flow -->
+    <mxCell id="p2_l2_reorder" value="Trigger Reorder Flow" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="p2_l2">
+      <mxGeometry x="840" y="90" width="150" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Lane 2.3: Delivery Scheduling -->
+    <mxCell id="p2_l3" value="Delivery Scheduling" style="swimlane;startSize=120;horizontal=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="p2">
+      <mxGeometry x="30" y="320" width="3930" height="160" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Auto-assign driver -->
+    <mxCell id="p2_l3_assign" value="System Auto-assigns Driver (Dataverse Drivers Table)" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="p2_l3">
+      <mxGeometry x="1030" y="55" width="180" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Delivery record created -->
+    <mxCell id="p2_l3_delrec" value="Delivery Record Created in Dataverse" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="p2_l3">
+      <mxGeometry x="1260" y="55" width="180" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- POOL 3: Warehouse / Fulfilment                              -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="p3" value="Warehouse / Fulfilment" style="swimlane;startSize=30;horizontal=0;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=12;fontColor=#7d5a00;" vertex="1" parent="1">
+      <mxGeometry x="80" y="940" width="3960" height="320" as="geometry" />
+    </mxCell>
+
+    <!-- Lane 3.1: Warehouse Staff -->
+    <mxCell id="p3_l1" value="Warehouse Staff" style="swimlane;startSize=120;horizontal=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="p3">
+      <mxGeometry x="30" y="0" width="3930" height="160" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Receive Reorder Alert -->
+    <mxCell id="p3_l1_alert" value="Receive Reorder Alert (Teams + Email)" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=message;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="p3_l1">
+      <mxGeometry x="840" y="55" width="160" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Intermediate Timer Event: Wait for Restock -->
+    <mxCell id="p3_l1_wait" value="Wait for Restock" style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=timer;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontSize=10;" vertex="1" parent="p3_l1">
+      <mxGeometry x="1050" y="55" width="50" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Lane 3.2: Driver -->
+    <mxCell id="p3_l2" value="Driver" style="swimlane;startSize=120;horizontal=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="p3">
+      <mxGeometry x="30" y="160" width="3930" height="160" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Driver receives notification -->
+    <mxCell id="p3_l2_notif" value="Driver Receives Notification (Teams/Email)" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=message;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="p3_l2">
+      <mxGeometry x="1480" y="55" width="180" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Driver picks up plants -->
+    <mxCell id="p3_l2_pickup" value="Driver Picks Up Plants from Warehouse" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=general;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="p3_l2">
+      <mxGeometry x="1710" y="55" width="160" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Mark In Transit -->
+    <mxCell id="p3_l2_transit" value="Mark Delivery as 'In Transit' in Power Apps" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=user;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="p3_l2">
+      <mxGeometry x="1920" y="55" width="160" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Mark Delivered -->
+    <mxCell id="p3_l2_delivered" value="Complete Delivery, Mark as 'Delivered' in Power Apps" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=user;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="p3_l2">
+      <mxGeometry x="2130" y="55" width="180" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- POOL 4: Microsoft Fabric & Automation                       -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="p4" value="Microsoft Fabric &amp; Automation" style="swimlane;startSize=30;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=12;fontColor=#4a0072;" vertex="1" parent="1">
+      <mxGeometry x="80" y="1280" width="3960" height="360" as="geometry" />
+    </mxCell>
+
+    <!-- Lane 4.1: Power Automate -->
+    <mxCell id="p4_l1" value="Power Automate" style="swimlane;startSize=120;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="p4">
+      <mxGeometry x="30" y="0" width="3930" height="180" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Order Confirmation Flow -->
+    <mxCell id="p4_l1_orderconf" value="Order Confirmation Flow Triggered" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="p4_l1">
+      <mxGeometry x="280" y="65" width="180" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Send delivery notification -->
+    <mxCell id="p4_l1_sendnotif" value="Send Delivery Notification to Office and Driver" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=send;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="p4_l1">
+      <mxGeometry x="1480" y="65" width="180" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Timer Start Event: Daily 6am Inventory Check -->
+    <mxCell id="p4_l1_timer_daily" value="Daily 6am Trigger" style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=timer;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontSize=10;" vertex="1" parent="p4_l1">
+      <mxGeometry x="2890" y="20" width="50" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Check inventory levels -->
+    <mxCell id="p4_l1_checkinv" value="Check All Inventory Levels" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="p4_l1">
+      <mxGeometry x="2990" y="20" width="160" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Gateway: Below threshold? -->
+    <mxCell id="p4_l1_gw_inv" value="Below Reorder Threshold?" style="rhombus;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rhombusPerimeter;background=gateway;symbol=exclusiveGw;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;verticalLabelPosition=bottom;verticalAlign=top;" vertex="1" parent="p4_l1">
+      <mxGeometry x="3200" y="20" width="60" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Send low stock alert -->
+    <mxCell id="p4_l1_lowalert" value="Send Low Stock Alert (Teams + Email)" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=send;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="p4_l1">
+      <mxGeometry x="3320" y="100" width="170" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Auto-generate reorder request -->
+    <mxCell id="p4_l1_autoreorder" value="Auto-Generate Reorder Request" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="p4_l1">
+      <mxGeometry x="3550" y="100" width="160" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- End Event: Inventory Check – items OK -->
+    <mxCell id="p4_l1_end_no" value="Stock OK" style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;fontSize=10;" vertex="1" parent="p4_l1">
+      <mxGeometry x="3320" y="25" width="40" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- End Event: Reorder generated -->
+    <mxCell id="p4_l1_end_yes" value="Reorder Generated" style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;fontSize=10;" vertex="1" parent="p4_l1">
+      <mxGeometry x="3770" y="110" width="40" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- Lane 4.2: Microsoft Fabric / Power BI -->
+    <mxCell id="p4_l2" value="Microsoft Fabric / Power BI" style="swimlane;startSize=120;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="p4">
+      <mxGeometry x="30" y="180" width="3930" height="180" as="geometry" />
+    </mxCell>
+
+    <!-- Intermediate Timer Event: Every 4 hours -->
+    <mxCell id="p4_l2_timer4h" value="Every 4 Hours" style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=timer;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=3;fontSize=10;" vertex="1" parent="p4_l2">
+      <mxGeometry x="2400" y="65" width="50" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Fabric pipeline syncs -->
+    <mxCell id="p4_l2_sync" value="Fabric Pipeline Syncs Dataverse Tables to Lakehouse" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="p4_l2">
+      <mxGeometry x="2510" y="65" width="200" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: PySpark notebook -->
+    <mxCell id="p4_l2_pyspark" value="PySpark Notebook Runs Inventory &amp; Delivery KPI Analysis" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="p4_l2">
+      <mxGeometry x="2760" y="65" width="200" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Semantic model refreshed -->
+    <mxCell id="p4_l2_semantic" value="Semantic Model Refreshed" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="p4_l2">
+      <mxGeometry x="3010" y="65" width="180" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Task: Power BI dashboard updated -->
+    <mxCell id="p4_l2_pbi" value="Power BI Dashboard Updated" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rectanglePerimeter;symbol=service;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="p4_l2">
+      <mxGeometry x="3240" y="65" width="180" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- End Event: Analytics complete -->
+    <mxCell id="p4_l2_end" value="Analytics Complete" style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;fontSize=10;" vertex="1" parent="p4_l2">
+      <mxGeometry x="3480" y="65" width="50" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SEQUENCE FLOW EDGES — Main Order Process                    -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- Start → Record Order (cross pool, message flow) -->
+    <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;strokeColor=#0066CC;" edge="1" source="s_start_order" target="p2_l1_record" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Record Order → Order Confirmation Flow (cross pool, message) -->
+    <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;dashed=1;strokeColor=#9673a6;" edge="1" source="p2_l1_record" target="p4_l1_orderconf" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Record Order → Reserve Stock (within pool) -->
+    <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#82b366;" edge="1" source="p2_l1_record" target="p2_l2_reserve" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Reserve Stock → Gateway: Stock Sufficient? -->
+    <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#82b366;" edge="1" source="p2_l2_reserve" target="p2_l2_gw_stock" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Gateway YES → Auto-assign Driver -->
+    <mxCell id="e5" value="YES" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#82b366;fontSize=10;fontStyle=1;" edge="1" source="p2_l2_gw_stock" target="p2_l3_assign" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Gateway NO → Trigger Reorder -->
+    <mxCell id="e6" value="NO" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#d79b00;fontSize=10;fontStyle=1;" edge="1" source="p2_l2_gw_stock" target="p2_l2_reorder" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Reorder → Warehouse Alert (cross pool) -->
+    <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;dashed=1;strokeColor=#d79b00;" edge="1" source="p2_l2_reorder" target="p3_l1_alert" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Warehouse Alert → Wait for Restock (intermediate timer) -->
+    <mxCell id="e8" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#d6b656;" edge="1" source="p3_l1_alert" target="p3_l1_wait" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Wait for Restock → Auto-assign Driver (rejoin main flow, cross pool) -->
+    <mxCell id="e9" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#d6b656;dashed=1;" edge="1" source="p3_l1_wait" target="p2_l3_assign" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Auto-assign → Create Delivery Record -->
+    <mxCell id="e10" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#82b366;" edge="1" source="p2_l3_assign" target="p2_l3_delrec" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Create Delivery Record → Send Notification (cross pool, to Power Automate) -->
+    <mxCell id="e11" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;dashed=1;strokeColor=#9673a6;" edge="1" source="p2_l3_delrec" target="p4_l1_sendnotif" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Send Notification → Driver Receives (cross pool, message flow) -->
+    <mxCell id="e12" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#9673a6;" edge="1" source="p4_l1_sendnotif" target="p3_l2_notif" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Driver Receives → Pick Up -->
+    <mxCell id="e13" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#d6b656;" edge="1" source="p3_l2_notif" target="p3_l2_pickup" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Pick Up → In Transit -->
+    <mxCell id="e14" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#d6b656;" edge="1" source="p3_l2_pickup" target="p3_l2_transit" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- In Transit → Delivered -->
+    <mxCell id="e15" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#d6b656;" edge="1" source="p3_l2_transit" target="p3_l2_delivered" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Delivered → Office Confirms Receipt (cross pool, message flow) -->
+    <mxCell id="e16" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#6c8ebf;" edge="1" source="p3_l2_delivered" target="p1_l1_confirm" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Office Confirms → End Event -->
+    <mxCell id="e17" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#6c8ebf;" edge="1" source="p1_l1_confirm" target="s_end_order" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SEQUENCE FLOW — Inventory Automation Sub-Process            -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <mxCell id="e18" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;" edge="1" source="p4_l1_timer_daily" target="p4_l1_checkinv" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e19" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;" edge="1" source="p4_l1_checkinv" target="p4_l1_gw_inv" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Gateway NO (stock OK) → End -->
+    <mxCell id="e20" value="NO" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#82b366;fontSize=10;fontStyle=1;" edge="1" source="p4_l1_gw_inv" target="p4_l1_end_no" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Gateway YES → Send Low Stock Alert -->
+    <mxCell id="e21" value="YES" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#d79b00;fontSize=10;fontStyle=1;" edge="1" source="p4_l1_gw_inv" target="p4_l1_lowalert" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e22" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#d79b00;" edge="1" source="p4_l1_lowalert" target="p4_l1_autoreorder" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e23" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#d79b00;" edge="1" source="p4_l1_autoreorder" target="p4_l1_end_yes" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SEQUENCE FLOW — Fabric Analytics Sub-Process                -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <mxCell id="e24" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;" edge="1" source="p4_l2_timer4h" target="p4_l2_sync" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e25" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;" edge="1" source="p4_l2_sync" target="p4_l2_pyspark" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e26" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;" edge="1" source="p4_l2_pyspark" target="p4_l2_semantic" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e27" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;" edge="1" source="p4_l2_semantic" target="p4_l2_pbi" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e28" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;" edge="1" source="p4_l2_pbi" target="p4_l2_end" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- LEGEND                                                      -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="legend_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="80" y="1690" width="620" height="180" as="geometry" />
+    </mxCell>
+    <mxCell id="legend_title" value="&lt;b&gt;Legend&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="80" y="1690" width="620" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_start" value="Start Event" style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=general;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="100" y="1730" width="30" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_start_lbl" value="Start Event" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="140" y="1730" width="80" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_end" value="End Event" style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;" vertex="1" parent="1">
+      <mxGeometry x="240" y="1730" width="30" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_end_lbl" value="End Event" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="280" y="1730" width="80" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_gw" value="X" style="rhombus;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rhombusPerimeter;background=gateway;symbol=exclusiveGw;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="100" y="1770" width="30" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_gw_lbl" value="Exclusive Gateway" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="140" y="1770" width="120" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_timer" value="" style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=timer;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="280" y="1770" width="30" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_timer_lbl" value="Timer Event" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="320" y="1770" width="80" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_seq" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#333333;" edge="1" parent="1">
+      <mxGeometry x="100" y="1815" width="80" height="30" as="geometry">
+        <Array as="points" />
+        <mxPoint x="100" y="1820" as="sourcePoint" />
+        <mxPoint x="180" y="1820" as="targetPoint" />
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="leg_seq_lbl" value="Sequence Flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="190" y="1808" width="110" height="30" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_msg" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;dashed=1;strokeColor=#0066CC;" edge="1" parent="1">
+      <mxGeometry x="100" y="1845" width="80" height="30" as="geometry">
+        <Array as="points" />
+        <mxPoint x="100" y="1850" as="sourcePoint" />
+        <mxPoint x="180" y="1850" as="targetPoint" />
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="leg_msg_lbl" value="Message Flow (cross-pool)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="190" y="1838" width="170" height="30" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>
