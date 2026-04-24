@@ -1,0 +1,181 @@
+{
+  "_comment": "Dataverse schema for Plant Delivery & Office Inventory Management. Import via Power Platform CLI or manually in make.powerapps.com > Tables.",
+  "solution": "PlantInventoryManagement",
+  "publisher_prefix": "lic",
+  "tables": [
+    {
+      "logical_name": "lic_order",
+      "display_name": "Orders",
+      "plural_display_name": "Orders",
+      "description": "Represents a plant delivery order submitted by an office.",
+      "ownership": "User or Team",
+      "columns": [
+        {
+          "logical_name": "lic_ordernumber",
+          "display_name": "Order Number",
+          "type": "AutoNumber",
+          "format": "ORD-{SEQNUM:5}",
+          "is_primary": true,
+          "required": true,
+          "description": "Auto-generated unique order identifier."
+        },
+        {
+          "logical_name": "lic_office",
+          "display_name": "Office",
+          "type": "Lookup",
+          "lookup_target_table": "lic_office",
+          "required": true,
+          "description": "The office that placed this order."
+        },
+        {
+          "logical_name": "lic_requestedby",
+          "display_name": "Requested By",
+          "type": "Lookup",
+          "lookup_target_table": "systemuser",
+          "required": true,
+          "description": "The user who submitted the order."
+        },
+        {
+          "logical_name": "lic_orderdate",
+          "display_name": "Order Date",
+          "type": "DateTime",
+          "format": "DateAndTime",
+          "required": true,
+          "description": "Date and time the order was submitted."
+        },
+        {
+          "logical_name": "lic_status",
+          "display_name": "Status",
+          "type": "Choice",
+          "choices": [
+            { "value": 100000000, "label": "Pending" },
+            { "value": 100000001, "label": "Confirmed" },
+            { "value": 100000002, "label": "In Transit" },
+            { "value": 100000003, "label": "Delivered" }
+          ],
+          "default_value": 100000000,
+          "required": true,
+          "description": "Current status of the order."
+        },
+        {
+          "logical_name": "lic_notes",
+          "display_name": "Notes",
+          "type": "Memo",
+          "max_length": 2000,
+          "required": false,
+          "description": "Additional notes or instructions for the order."
+        }
+      ]
+    },
+    {
+      "logical_name": "lic_inventory",
+      "display_name": "Inventory",
+      "plural_display_name": "Inventory",
+      "description": "Represents plant stock available in the warehouse.",
+      "ownership": "Organisation",
+      "columns": [
+        {
+          "logical_name": "lic_plantname",
+          "display_name": "Plant Name",
+          "type": "Text",
+          "max_length": 200,
+          "is_primary": true,
+          "required": true,
+          "description": "Name of the plant (primary column)."
+        },
+        {
+          "logical_name": "lic_quantityinstock",
+          "display_name": "Quantity In Stock",
+          "type": "WholeNumber",
+          "min_value": 0,
+          "required": true,
+          "description": "Current stock count for this plant."
+        },
+        {
+          "logical_name": "lic_reorderthreshold",
+          "display_name": "Reorder Threshold",
+          "type": "WholeNumber",
+          "min_value": 0,
+          "required": true,
+          "description": "Minimum stock level before a reorder alert is triggered."
+        },
+        {
+          "logical_name": "lic_lastupdated",
+          "display_name": "Last Updated",
+          "type": "DateTime",
+          "format": "DateAndTime",
+          "required": false,
+          "description": "Timestamp of the most recent stock update."
+        }
+      ]
+    },
+    {
+      "logical_name": "lic_orderitem",
+      "display_name": "Order Items",
+      "plural_display_name": "Order Items",
+      "description": "Individual line items within an order, linking an order to a plant and quantity.",
+      "ownership": "User or Team",
+      "columns": [
+        {
+          "logical_name": "lic_orderitemname",
+          "display_name": "Order Item",
+          "type": "Text",
+          "max_length": 200,
+          "is_primary": true,
+          "required": true,
+          "description": "Auto-generated or descriptive name for the order item row."
+        },
+        {
+          "logical_name": "lic_order",
+          "display_name": "Order",
+          "type": "Lookup",
+          "lookup_target_table": "lic_order",
+          "required": true,
+          "description": "The parent order this item belongs to."
+        },
+        {
+          "logical_name": "lic_plant",
+          "display_name": "Plant",
+          "type": "Lookup",
+          "lookup_target_table": "lic_inventory",
+          "required": true,
+          "description": "The plant being ordered."
+        },
+        {
+          "logical_name": "lic_quantityrequested",
+          "display_name": "Quantity Requested",
+          "type": "WholeNumber",
+          "min_value": 1,
+          "required": true,
+          "description": "Number of units of this plant requested."
+        }
+      ]
+    },
+    {
+      "logical_name": "lic_office",
+      "display_name": "Offices",
+      "plural_display_name": "Offices",
+      "description": "Represents an office location that can submit plant orders.",
+      "ownership": "Organisation",
+      "columns": [
+        {
+          "logical_name": "lic_officename",
+          "display_name": "Office Name",
+          "type": "Text",
+          "max_length": 200,
+          "is_primary": true,
+          "required": true,
+          "description": "Name of the office (primary column)."
+        },
+        {
+          "logical_name": "lic_location",
+          "display_name": "Location",
+          "type": "Text",
+          "max_length": 400,
+          "required": false,
+          "description": "Physical address or location description of the office."
+        }
+      ]
+    }
+  ]
+}

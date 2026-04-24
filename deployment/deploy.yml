@@ -1,0 +1,97 @@
+name: Deploy Power Platform Solution
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: "Target environment to deploy to"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - test
+          - prod
+
+jobs:
+  deploy:
+    name: Export from Dev and deploy to ${{ github.event.inputs.target_environment || 'dev' }}
+    runs-on: ubuntu-latest
+
+    env:
+      SOLUTION_NAME: PlantInventoryManagement
+      SOLUTION_OUTPUT_FILE: ${{ github.workspace }}/solution-export/PlantInventoryManagement_managed.zip
+
+    steps:
+      # ── Step 1: Check out repository ─────────────────────────────────────────
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ── Step 2: Install Power Platform CLI ───────────────────────────────────
+      - name: Install Power Platform CLI
+        uses: microsoft/powerplatform-actions/actions-install@v1
+
+      # ── Step 3: Authenticate to the Dev environment (export source) ──────────
+      - name: Authenticate to Dev environment
+        uses: microsoft/powerplatform-actions/who-am-i@v1
+        with:
+          environment-url: ${{ secrets.PP_DEV_ENVIRONMENT_URL }}
+          app-id: ${{ secrets.PP_CLIENT_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.PP_TENANT_ID }}
+
+      # ── Step 4: Export managed solution from Dev ──────────────────────────────
+      - name: Export solution from Dev
+        uses: microsoft/powerplatform-actions/export-solution@v1
+        with:
+          environment-url: ${{ secrets.PP_DEV_ENVIRONMENT_URL }}
+          app-id: ${{ secrets.PP_CLIENT_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.PP_TENANT_ID }}
+          solution-name: ${{ env.SOLUTION_NAME }}
+          solution-output-file: ${{ env.SOLUTION_OUTPUT_FILE }}
+          managed: true
+
+      # ── Step 5: Upload solution zip as build artefact ─────────────────────────
+      - name: Upload solution artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: solution-package
+          path: ${{ env.SOLUTION_OUTPUT_FILE }}
+
+      # ── Step 6: Resolve target environment URL ────────────────────────────────
+      - name: Set target environment URL
+        id: set_env_url
+        run: |
+          TARGET="${{ github.event.inputs.target_environment || 'dev' }}"
+          if [ "$TARGET" = "prod" ]; then
+            echo "TARGET_URL=${{ secrets.PP_PROD_ENVIRONMENT_URL }}" >> "$GITHUB_OUTPUT"
+          elif [ "$TARGET" = "test" ]; then
+            echo "TARGET_URL=${{ secrets.PP_TEST_ENVIRONMENT_URL }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "TARGET_URL=${{ secrets.PP_DEV_ENVIRONMENT_URL }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── Step 7: Import solution into target environment ───────────────────────
+      - name: Import solution to ${{ github.event.inputs.target_environment || 'dev' }}
+        uses: microsoft/powerplatform-actions/import-solution@v1
+        with:
+          environment-url: ${{ steps.set_env_url.outputs.TARGET_URL }}
+          app-id: ${{ secrets.PP_CLIENT_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.PP_TENANT_ID }}
+          solution-file: ${{ env.SOLUTION_OUTPUT_FILE }}
+          force-overwrite: true
+          publish-changes: false
+
+      # ── Step 8: Publish customisations in target environment ──────────────────
+      - name: Publish customisations
+        uses: microsoft/powerplatform-actions/publish-solution@v1
+        with:
+          environment-url: ${{ steps.set_env_url.outputs.TARGET_URL }}
+          app-id: ${{ secrets.PP_CLIENT_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.PP_TENANT_ID }}

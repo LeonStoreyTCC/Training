@@ -1,0 +1,143 @@
+{
+  "_comment": "Power Apps canvas app configuration for Plant Delivery & Office Inventory Management. Update environment_url before deploying.",
+  "app_metadata": {
+    "name": "Plant Delivery & Office Inventory Management",
+    "description": "Canvas app for submitting plant delivery orders and monitoring warehouse inventory across offices.",
+    "version": "1.0.0",
+    "publisher": "LIC",
+    "solution": "PlantInventoryManagement",
+    "environment_url": "<YOUR_DATAVERSE_ENVIRONMENT_URL>"
+  },
+  "screens": [
+    {
+      "name": "scrHome",
+      "display_name": "Home",
+      "purpose": "Landing screen. Shows navigation buttons based on the current user's role.",
+      "visible_to_roles": ["Admin", "Office Manager", "Driver", "Warehouse", "Analyst"],
+      "controls": [
+        {
+          "name": "btnSubmitOrder",
+          "type": "Button",
+          "label": "Submit New Order",
+          "navigates_to": "scrSubmitOrder",
+          "visible_formula": "varUserRole in [\"Admin\", \"Office Manager\"]"
+        },
+        {
+          "name": "btnMyOrders",
+          "type": "Button",
+          "label": "View My Orders",
+          "navigates_to": "scrMyOrders",
+          "visible_formula": "true"
+        },
+        {
+          "name": "btnInventoryDashboard",
+          "type": "Button",
+          "label": "Inventory Dashboard",
+          "navigates_to": "scrInventoryDashboard",
+          "visible_formula": "varUserRole in [\"Admin\", \"Analyst\", \"Warehouse\"]"
+        }
+      ]
+    },
+    {
+      "name": "scrSubmitOrder",
+      "display_name": "Submit Order",
+      "purpose": "Allows Office Managers and Admins to browse available plants, add quantities, and submit a delivery order.",
+      "visible_to_roles": ["Admin", "Office Manager"],
+      "controls": [
+        {
+          "name": "galInventory",
+          "type": "Gallery",
+          "data_source": "Inventory",
+          "items_formula": "Sort(Inventory, 'Plant Name', SortOrder.Ascending)"
+        },
+        {
+          "name": "txtQtyInput",
+          "type": "TextInput",
+          "purpose": "Per-row quantity input inside the gallery",
+          "default_value": "0"
+        },
+        {
+          "name": "btnAddToOrder",
+          "type": "Button",
+          "label": "Add to Order",
+          "on_select_formula": "Collect(colOrderItems, {Plant: galInventory.Selected, Qty: Value(txtQtyInput.Text)})"
+        },
+        {
+          "name": "txtNotes",
+          "type": "TextInput",
+          "purpose": "Optional order notes"
+        },
+        {
+          "name": "btnSubmitOrder",
+          "type": "Button",
+          "label": "Submit Order",
+          "on_select_formula": "See /powerapps/README.md — Submit Order Patch formula"
+        }
+      ]
+    },
+    {
+      "name": "scrMyOrders",
+      "display_name": "My Orders",
+      "purpose": "Shows the current user's orders with status badges and drill-down to order items.",
+      "visible_to_roles": ["Admin", "Office Manager", "Driver", "Warehouse", "Analyst"],
+      "controls": [
+        {
+          "name": "galMyOrders",
+          "type": "Gallery",
+          "data_source": "Orders",
+          "items_formula": "Filter(Orders, 'Requested By'.'Primary Email' = User().Email)",
+          "sort": "Order Date descending"
+        },
+        {
+          "name": "rectStatusBadge",
+          "type": "Rectangle",
+          "fill_formula": "Switch(ThisItem.Status, 'Status (Orders)'.Pending, RGBA(255,193,7,1), 'Status (Orders)'.Confirmed, RGBA(13,110,253,1), 'Status (Orders)'.'In Transit', RGBA(253,126,20,1), 'Status (Orders)'.Delivered, RGBA(25,135,84,1), RGBA(108,117,125,1))"
+        }
+      ]
+    },
+    {
+      "name": "scrInventoryDashboard",
+      "display_name": "Inventory Dashboard",
+      "purpose": "Displays all inventory items with low-stock highlighting. Warehouse users can update quantities inline.",
+      "visible_to_roles": ["Admin", "Analyst", "Warehouse"],
+      "controls": [
+        {
+          "name": "galInventoryDashboard",
+          "type": "Gallery",
+          "data_source": "Inventory",
+          "items_formula": "Sort(Inventory, 'Plant Name', SortOrder.Ascending)",
+          "row_fill_formula": "If(ThisItem.'Quantity In Stock' < ThisItem.'Reorder Threshold', RGBA(255,235,235,1), RGBA(255,255,255,1))"
+        },
+        {
+          "name": "txtQtyEdit",
+          "type": "TextInput",
+          "purpose": "Editable quantity field (Warehouse role only)",
+          "visible_formula": "varUserRole in [\"Admin\", \"Warehouse\"]"
+        },
+        {
+          "name": "btnSaveQty",
+          "type": "Button",
+          "label": "Save",
+          "visible_formula": "varUserRole in [\"Admin\", \"Warehouse\"]",
+          "on_select_formula": "Patch(Inventory, ThisItem, {'Quantity In Stock': Value(txtQtyEdit.Text), 'Last Updated': Now()})"
+        }
+      ]
+    }
+  ],
+  "key_formulas": {
+    "_comment": "Reference formulas. Copy these into Power Apps Studio properties.",
+    "app_on_start": "Set(varUserRole, LookUp(/* RoleTable */, UserEmail = User().Email, Role)); Set(varUserOffice, LookUp(Offices, /* match user */)); ClearCollect(colOrderItems, [])",
+    "submit_order_patch": "Set(varNewOrder, Patch(Orders, Defaults(Orders), {'Requested By': LookUp(Users, 'Primary Email' = User().Email), 'Order Date': Now(), Status: 'Status (Orders)'.Pending, Office: varUserOffice, Notes: txtNotes.Text})); ForAll(colOrderItems, Patch('Order Items', Defaults('Order Items'), {Order: varNewOrder, Plant: ThisRecord.Plant, 'Quantity Requested': ThisRecord.Qty})); OrderConfirmationFlow.Run(varNewOrder.'Order Number'); Notify(\"Order \" & varNewOrder.'Order Number' & \" submitted.\", NotificationType.Success); Navigate(scrMyOrders, ScreenTransition.Fade)",
+    "my_orders_gallery_filter": "Filter(Orders, 'Requested By'.'Primary Email' = User().Email)",
+    "inventory_low_stock_fill": "If(ThisItem.'Quantity In Stock' < ThisItem.'Reorder Threshold', RGBA(255,235,235,1), RGBA(255,255,255,1))",
+    "status_badge_color": "Switch(ThisItem.Status, 'Status (Orders)'.Pending, RGBA(255,193,7,1), 'Status (Orders)'.Confirmed, RGBA(13,110,253,1), 'Status (Orders)'.'In Transit', RGBA(253,126,20,1), 'Status (Orders)'.Delivered, RGBA(25,135,84,1), RGBA(108,117,125,1))"
+  },
+  "role_based_visibility": {
+    "_comment": "Maps Power Apps varUserRole values to visible screens. Set varUserRole in App.OnStart from a Dataverse table or Entra ID group membership.",
+    "Admin":          ["scrHome", "scrSubmitOrder", "scrMyOrders", "scrInventoryDashboard"],
+    "Office Manager": ["scrHome", "scrSubmitOrder", "scrMyOrders"],
+    "Driver":         ["scrHome", "scrMyOrders"],
+    "Warehouse":      ["scrHome", "scrMyOrders", "scrInventoryDashboard"],
+    "Analyst":        ["scrHome", "scrMyOrders", "scrInventoryDashboard"]
+  }
+}
