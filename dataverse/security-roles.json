@@ -1,0 +1,259 @@
+{
+  "_comment": "Security role definitions for Plant Delivery & Office Inventory Management. Configure these in Power Platform Admin Center > Environments > Security Roles.",
+  "solution": "PlantInventoryManagement",
+  "roles": [
+    {
+      "name": "Admin",
+      "description": "Full access to all tables. Intended for system administrators and Power Platform owners.",
+      "table_permissions": [
+        {
+          "table": "lic_order",
+          "display_name": "Orders",
+          "create": "Organization",
+          "read": "Organization",
+          "write": "Organization",
+          "delete": "Organization",
+          "append": "Organization",
+          "append_to": "Organization"
+        },
+        {
+          "table": "lic_inventory",
+          "display_name": "Inventory",
+          "create": "Organization",
+          "read": "Organization",
+          "write": "Organization",
+          "delete": "Organization",
+          "append": "Organization",
+          "append_to": "Organization"
+        },
+        {
+          "table": "lic_orderitem",
+          "display_name": "Order Items",
+          "create": "Organization",
+          "read": "Organization",
+          "write": "Organization",
+          "delete": "Organization",
+          "append": "Organization",
+          "append_to": "Organization"
+        },
+        {
+          "table": "lic_office",
+          "display_name": "Offices",
+          "create": "Organization",
+          "read": "Organization",
+          "write": "Organization",
+          "delete": "Organization",
+          "append": "Organization",
+          "append_to": "Organization"
+        }
+      ]
+    },
+    {
+      "name": "Office Manager",
+      "description": "Can create and manage orders for their office. Read-only access to Inventory and Offices. Row-level access scoped to own Business Unit.",
+      "table_permissions": [
+        {
+          "table": "lic_order",
+          "display_name": "Orders",
+          "create": "Business Unit",
+          "read": "Business Unit",
+          "write": "Business Unit",
+          "delete": "None",
+          "append": "Business Unit",
+          "append_to": "Business Unit"
+        },
+        {
+          "table": "lic_inventory",
+          "display_name": "Inventory",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        },
+        {
+          "table": "lic_orderitem",
+          "display_name": "Order Items",
+          "create": "Business Unit",
+          "read": "Business Unit",
+          "write": "Business Unit",
+          "delete": "None",
+          "append": "Business Unit",
+          "append_to": "Business Unit"
+        },
+        {
+          "table": "lic_office",
+          "display_name": "Offices",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        }
+      ]
+    },
+    {
+      "name": "Driver",
+      "description": "Read-only access to orders. Can update the Status column on Orders to reflect delivery progress.",
+      "table_permissions": [
+        {
+          "table": "lic_order",
+          "display_name": "Orders",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None",
+          "column_restrictions": [
+            {
+              "column": "lic_status",
+              "display_name": "Status",
+              "can_update": true,
+              "_comment": "Driver can only update the Status column. Apply a Column Security Profile named 'DriverStatusUpdate' granting Update on lic_status."
+            }
+          ]
+        },
+        {
+          "table": "lic_inventory",
+          "display_name": "Inventory",
+          "create": "None",
+          "read": "None",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        },
+        {
+          "table": "lic_orderitem",
+          "display_name": "Order Items",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        },
+        {
+          "table": "lic_office",
+          "display_name": "Offices",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        }
+      ]
+    },
+    {
+      "name": "Warehouse",
+      "description": "Full read/write access to Inventory. Read-only access to Orders and Order Items to fulfil deliveries.",
+      "table_permissions": [
+        {
+          "table": "lic_order",
+          "display_name": "Orders",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        },
+        {
+          "table": "lic_inventory",
+          "display_name": "Inventory",
+          "create": "Organization",
+          "read": "Organization",
+          "write": "Organization",
+          "delete": "None",
+          "append": "Organization",
+          "append_to": "Organization"
+        },
+        {
+          "table": "lic_orderitem",
+          "display_name": "Order Items",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        },
+        {
+          "table": "lic_office",
+          "display_name": "Offices",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        }
+      ]
+    },
+    {
+      "name": "Analyst",
+      "description": "Read-only access to all tables for reporting and analytics purposes.",
+      "table_permissions": [
+        {
+          "table": "lic_order",
+          "display_name": "Orders",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        },
+        {
+          "table": "lic_inventory",
+          "display_name": "Inventory",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        },
+        {
+          "table": "lic_orderitem",
+          "display_name": "Order Items",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        },
+        {
+          "table": "lic_office",
+          "display_name": "Offices",
+          "create": "None",
+          "read": "Organization",
+          "write": "None",
+          "delete": "None",
+          "append": "None",
+          "append_to": "None"
+        }
+      ]
+    }
+  ],
+  "column_security_profiles": [
+    {
+      "name": "DriverStatusUpdate",
+      "description": "Allows Drivers to update the Status column on Orders only.",
+      "columns": [
+        {
+          "table": "lic_order",
+          "column": "lic_status",
+          "allow_read": true,
+          "allow_update": true,
+          "allow_create": false
+        }
+      ]
+    }
+  ]
+}

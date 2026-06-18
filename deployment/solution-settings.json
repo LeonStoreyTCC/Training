@@ -1,0 +1,60 @@
+{
+  "_comment": "Solution deployment settings for PlantInventoryManagement. Update all placeholder values before deploying. These values map to Power Platform Environment Variables defined inside the solution.",
+  "solution": {
+    "name": "PlantInventoryManagement",
+    "display_name": "Plant Delivery & Office Inventory Management",
+    "description": "Manages plant delivery orders and office inventory using Power Apps, Dataverse, Power Automate, and Microsoft Fabric.",
+    "version": "1.0.0.0",
+    "publisher": {
+      "name": "LIC",
+      "prefix": "lic",
+      "option_value_prefix": 10000
+    }
+  },
+  "environment_variables": [
+    {
+      "schema_name": "lic_DataverseEnvironmentUrl",
+      "display_name": "Dataverse Environment URL",
+      "description": "The base URL of the target Dataverse environment. Used by Power Automate flows and the Fabric pipeline.",
+      "type": "String",
+      "default_value": "<YOUR_DATAVERSE_ENVIRONMENT_URL>",
+      "_example": "https://yourorg.crm6.dynamics.com"
+    },
+    {
+      "schema_name": "lic_NotificationEmail",
+      "display_name": "Notification Email",
+      "description": "Email address used for low-stock alerts and order notifications sent to the Warehouse team.",
+      "type": "String",
+      "default_value": "<YOUR_WAREHOUSE_TEAM_EMAIL>",
+      "_example": "warehouse@yourorg.com"
+    },
+    {
+      "schema_name": "lic_TeamsChannelWebhookUrl",
+      "display_name": "Teams Channel Webhook URL",
+      "description": "Incoming Webhook URL for the Microsoft Teams Notifications channel. Create this in Teams > Channel > Connectors > Incoming Webhook.",
+      "type": "String",
+      "default_value": "<YOUR_TEAMS_CHANNEL_WEBHOOK_URL>",
+      "_example": "https://yourorg.webhook.office.com/webhookb2/..."
+    }
+  ],
+  "connection_references": [
+    {
+      "schema_name": "lic_DataverseConnection",
+      "display_name": "Dataverse",
+      "connector": "shared_commondataserviceforapps",
+      "_comment": "Authenticate using a Service Principal registered in Azure Entra ID with Dataverse System Administrator role."
+    },
+    {
+      "schema_name": "lic_OutlookConnection",
+      "display_name": "Office 365 Outlook",
+      "connector": "shared_office365",
+      "_comment": "Use a shared mailbox or service account to avoid dependency on an individual user's mailbox."
+    },
+    {
+      "schema_name": "lic_TeamsConnection",
+      "display_name": "Microsoft Teams",
+      "connector": "shared_teams",
+      "_comment": "Use a service account or the Power Platform service principal for Teams actions."
+    }
+  ]
+}

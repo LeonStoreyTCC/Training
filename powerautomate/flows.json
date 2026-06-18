@@ -1,0 +1,211 @@
+{
+  "_comment": "Power Automate flow definitions for Plant Delivery & Office Inventory Management. Import each flow definition individually via make.powerautomate.com > Import > Import Package, or via Power Platform CLI.",
+  "flows": [
+    {
+      "name": "OrderConfirmationNotification",
+      "display_name": "Order Confirmation Notification",
+      "description": "Triggered from Power Apps when a user submits an order. Retrieves order details and notifies the requester via Teams adaptive card and email.",
+      "trigger": {
+        "type": "PowerAppsV2",
+        "kind": "Instant",
+        "inputs": [
+          {
+            "name": "orderNumber",
+            "type": "string",
+            "description": "The auto-generated Order Number of the newly created order."
+          }
+        ]
+      },
+      "actions": [
+        {
+          "step": 1,
+          "name": "GetOrder",
+          "type": "ListRows",
+          "connector": "Microsoft Dataverse",
+          "description": "Retrieve the Order record matching the supplied Order Number.",
+          "config": {
+            "table": "lic_orders",
+            "filter": "lic_ordernumber eq '@{triggerBody()?['text']}'",
+            "expand": "lic_requestedby($select=internalemailaddress,fullname),lic_office($select=lic_officename)"
+          }
+        },
+        {
+          "step": 2,
+          "name": "GetOrderItems",
+          "type": "ListRows",
+          "connector": "Microsoft Dataverse",
+          "description": "Retrieve all Order Item rows related to this order.",
+          "config": {
+            "table": "lic_orderitems",
+            "filter": "_lic_order_value eq '@{first(outputs('GetOrder')?['body/value'])?['lic_orderid']}'",
+            "expand": "lic_plant($select=lic_plantname)"
+          }
+        },
+        {
+          "step": 3,
+          "name": "SendConfirmationEmail",
+          "type": "SendEmailV2",
+          "connector": "Office 365 Outlook",
+          "description": "Send an HTML confirmation email to the requester listing the ordered items.",
+          "config": {
+            "to": "@{first(outputs('GetOrder')?['body/value'])?['lic_requestedby/internalemailaddress']}",
+            "subject": "Order Confirmation — @{first(outputs('GetOrder')?['body/value'])?['lic_ordernumber']}",
+            "body": "<p>Hi @{first(outputs('GetOrder')?['body/value'])?['lic_requestedby/fullname']},</p><p>Your plant delivery order <strong>@{first(outputs('GetOrder')?['body/value'])?['lic_ordernumber']}</strong> has been received and is currently <strong>Pending</strong>.</p><p>You will receive another notification when the status changes.</p><p>Regards,<br/>Plant Delivery Team</p>"
+          }
+        },
+        {
+          "step": 4,
+          "name": "PostTeamsAdaptiveCard",
+          "type": "PostAdaptiveCard",
+          "connector": "Microsoft Teams",
+          "description": "Post an adaptive card to the Notifications Teams channel summarising the new order.",
+          "config": {
+            "team_id": "<YOUR_TEAMS_TEAM_ID>",
+            "channel_id": "<YOUR_TEAMS_NOTIFICATIONS_CHANNEL_ID>",
+            "card": {
+              "type": "AdaptiveCard",
+              "version": "1.4",
+              "body": [
+                { "type": "TextBlock", "size": "Medium", "weight": "Bolder", "text": "New Order Submitted" },
+                { "type": "FactSet", "facts": [
+                  { "title": "Order Number", "value": "@{first(outputs('GetOrder')?['body/value'])?['lic_ordernumber']}" },
+                  { "title": "Requested By", "value": "@{first(outputs('GetOrder')?['body/value'])?['lic_requestedby/fullname']}" },
+                  { "title": "Office", "value": "@{first(outputs('GetOrder')?['body/value'])?['lic_office/lic_officename']}" },
+                  { "title": "Status", "value": "Pending" }
+                ]}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "LowStockAlert",
+      "display_name": "Low Stock Alert",
+      "description": "Runs daily at 6 AM. Checks for inventory items below the reorder threshold and notifies the Warehouse team via Teams and email.",
+      "trigger": {
+        "type": "Recurrence",
+        "kind": "Scheduled",
+        "config": {
+          "frequency": "Day",
+          "interval": 1,
+          "start_time": "2024-01-01T06:00:00Z",
+          "time_zone": "AUS Eastern Standard Time"
+        }
+      },
+      "actions": [
+        {
+          "step": 1,
+          "name": "ListLowStockItems",
+          "type": "ListRows",
+          "connector": "Microsoft Dataverse",
+          "description": "Retrieve all Inventory rows where Quantity In Stock is less than Reorder Threshold.",
+          "config": {
+            "table": "lic_inventories",
+            "filter": "lic_quantityinstock lt lic_reorderthreshold",
+            "select": "lic_plantname,lic_quantityinstock,lic_reorderthreshold"
+          }
+        },
+        {
+          "step": 2,
+          "name": "ConditionAnyLowStock",
+          "type": "Condition",
+          "connector": "Built-in",
+          "description": "Check whether any low-stock items were returned.",
+          "config": {
+            "expression": "@greater(length(outputs('ListLowStockItems')?['body/value']), 0)",
+            "if_true": [
+              {
+                "step": "2a",
+                "name": "SendLowStockEmail",
+                "type": "SendEmailV2",
+                "connector": "Office 365 Outlook",
+                "description": "Email the Warehouse team with the list of low-stock items.",
+                "config": {
+                  "to": "<YOUR_WAREHOUSE_TEAM_EMAIL>",
+                  "subject": "⚠️ Low Stock Alert — Action Required",
+                  "body": "<p>The following plants are below their reorder threshold:</p><ul>@{join(select(outputs('ListLowStockItems')?['body/value'], item => concat('<li>', item?['lic_plantname'], ' — In Stock: ', item?['lic_quantityinstock'], ' / Threshold: ', item?['lic_reorderthreshold'], '</li>')), '')}</ul><p>Please arrange restocking as soon as possible.</p>"
+                }
+              },
+              {
+                "step": "2b",
+                "name": "PostLowStockTeamsMessage",
+                "type": "PostMessage",
+                "connector": "Microsoft Teams",
+                "description": "Post a message to the Warehouse Teams channel listing low-stock items.",
+                "config": {
+                  "team_id": "<YOUR_TEAMS_TEAM_ID>",
+                  "channel_id": "<YOUR_TEAMS_WAREHOUSE_CHANNEL_ID>",
+                  "message": "⚠️ **Low Stock Alert**\n\nThe following plants need restocking:\n@{join(select(outputs('ListLowStockItems')?['body/value'], item => concat('• ', item?['lic_plantname'], ' (', item?['lic_quantityinstock'], ' in stock, threshold: ', item?['lic_reorderthreshold'], ')')), '\n')}"
+                }
+              }
+            ],
+            "if_false": [
+              {
+                "step": "2c",
+                "name": "Terminate",
+                "type": "Terminate",
+                "connector": "Built-in",
+                "description": "No low-stock items — end the flow gracefully.",
+                "config": { "status": "Succeeded" }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "OrderStatusChangedNotification",
+      "display_name": "Order Status Changed Notification",
+      "description": "Triggered when an Orders row is updated in Dataverse. If the Status column has changed, notifies the original requester via Teams and email.",
+      "trigger": {
+        "type": "WhenRowUpdated",
+        "kind": "Automated",
+        "connector": "Microsoft Dataverse",
+        "config": {
+          "table": "lic_orders",
+          "scope": "Organization",
+          "filtering_attributes": "lic_status",
+          "_comment": "The 'filtering_attributes' field limits trigger firing to Status column changes only, reducing unnecessary flow runs."
+        }
+      },
+      "actions": [
+        {
+          "step": 1,
+          "name": "GetUpdatedOrder",
+          "type": "GetRow",
+          "connector": "Microsoft Dataverse",
+          "description": "Retrieve the full updated Order record including requester details.",
+          "config": {
+            "table": "lic_orders",
+            "row_id": "@{triggerOutputs()?['body/lic_orderid']}",
+            "expand": "lic_requestedby($select=internalemailaddress,fullname)"
+          }
+        },
+        {
+          "step": 2,
+          "name": "SendStatusChangeEmail",
+          "type": "SendEmailV2",
+          "connector": "Office 365 Outlook",
+          "description": "Notify the requester that their order status has been updated.",
+          "config": {
+            "to": "@{outputs('GetUpdatedOrder')?['body/lic_requestedby/internalemailaddress']}",
+            "subject": "Order Status Update — @{outputs('GetUpdatedOrder')?['body/lic_ordernumber']}",
+            "body": "<p>Hi @{outputs('GetUpdatedOrder')?['body/lic_requestedby/fullname']},</p><p>The status of your order <strong>@{outputs('GetUpdatedOrder')?['body/lic_ordernumber']}</strong> has been updated to <strong>@{outputs('GetUpdatedOrder')?['body/lic_status@OData.Community.Display.V1.FormattedValue']}</strong>.</p><p>Regards,<br/>Plant Delivery Team</p>"
+          }
+        },
+        {
+          "step": 3,
+          "name": "PostStatusChangeTeamsMessage",
+          "type": "PostMessageInChat",
+          "connector": "Microsoft Teams",
+          "description": "Send a 1:1 Teams chat message to the requester with the new status.",
+          "config": {
+            "recipient": "@{outputs('GetUpdatedOrder')?['body/lic_requestedby/internalemailaddress']}",
+            "message": "📦 Your order **@{outputs('GetUpdatedOrder')?['body/lic_ordernumber']}** status has changed to **@{outputs('GetUpdatedOrder')?['body/lic_status@OData.Community.Display.V1.FormattedValue']}**."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "_comment": "Microsoft Fabric data pipeline configuration. Import this into a Fabric workspace Data Pipeline using the JSON import option, then update placeholder values.",
+  "pipeline_name": "PlantInventory_DataverseSync",
+  "description": "Copies Dataverse tables to Fabric Lakehouse delta tables every 4 hours.",
+  "workspace": "<YOUR_FABRIC_WORKSPACE_NAME>",
+  "lakehouse": "<YOUR_FABRIC_LAKEHOUSE_NAME>",
+  "schedule": {
+    "type": "Recurrence",
+    "frequency": "Hour",
+    "interval": 4,
+    "start_time": "2024-01-01T00:00:00Z",
+    "time_zone": "UTC"
+  },
+  "source": {
+    "type": "Dataverse",
+    "environment_url": "<YOUR_DATAVERSE_ENVIRONMENT_URL>",
+    "authentication": {
+      "type": "ServicePrincipal",
+      "tenant_id": "<YOUR_TENANT_ID>",
+      "client_id": "<YOUR_SERVICE_PRINCIPAL_CLIENT_ID>",
+      "client_secret_key_vault_url": "<YOUR_AZURE_KEY_VAULT_SECRET_URL>"
+    }
+  },
+  "destination": {
+    "type": "FabricLakehouse",
+    "table_format": "Delta",
+    "write_mode": "Overwrite"
+  },
+  "table_mappings": [
+    {
+      "source_table": "lic_order",
+      "source_display_name": "Orders",
+      "destination_table": "orders",
+      "column_mappings": [
+        { "source": "lic_ordernumber",   "destination": "order_number" },
+        { "source": "lic_officeid",      "destination": "office_id" },
+        { "source": "lic_requestedbyid", "destination": "requested_by_id" },
+        { "source": "lic_orderdate",     "destination": "order_date" },
+        { "source": "lic_status",        "destination": "status" },
+        { "source": "lic_notes",         "destination": "notes" },
+        { "source": "createdon",         "destination": "created_on" },
+        { "source": "modifiedon",        "destination": "modified_on" }
+      ]
+    },
+    {
+      "source_table": "lic_inventory",
+      "source_display_name": "Inventory",
+      "destination_table": "inventory",
+      "column_mappings": [
+        { "source": "lic_inventoryid",       "destination": "inventory_id" },
+        { "source": "lic_plantname",         "destination": "plant_name" },
+        { "source": "lic_quantityinstock",   "destination": "quantity_in_stock" },
+        { "source": "lic_reorderthreshold",  "destination": "reorder_threshold" },
+        { "source": "lic_lastupdated",       "destination": "last_updated" },
+        { "source": "createdon",             "destination": "created_on" },
+        { "source": "modifiedon",            "destination": "modified_on" }
+      ]
+    },
+    {
+      "source_table": "lic_orderitem",
+      "source_display_name": "Order Items",
+      "destination_table": "order_items",
+      "column_mappings": [
+        { "source": "lic_orderid",              "destination": "order_id" },
+        { "source": "lic_plantid",              "destination": "plant_id" },
+        { "source": "lic_quantityrequested",    "destination": "quantity_requested" },
+        { "source": "createdon",                "destination": "created_on" },
+        { "source": "modifiedon",               "destination": "modified_on" }
+      ]
+    },
+    {
+      "source_table": "lic_office",
+      "source_display_name": "Offices",
+      "destination_table": "offices",
+      "column_mappings": [
+        { "source": "lic_officename", "destination": "office_name" },
+        { "source": "lic_location",   "destination": "location" },
+        { "source": "createdon",      "destination": "created_on" },
+        { "source": "modifiedon",     "destination": "modified_on" }
+      ]
+    }
+  ],
+  "error_handling": {
+    "on_failure": "SendNotification",
+    "notification_email": "<YOUR_ADMIN_EMAIL>"
+  }
+}
