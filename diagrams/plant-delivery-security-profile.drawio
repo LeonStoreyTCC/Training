@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3400" pageHeight="2400" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- TITLE BLOCK                                                 -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="title_bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="40" y="20" width="3320" height="60" as="geometry" />
+    </mxCell>
+    <mxCell id="title_text" value="&lt;b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Plant Delivery &amp;amp; Office Inventory Management — Security Profile &amp;amp; Architecture Diagram&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 11px;&quot;&gt;Version 1.0 | Date: 2026-04-23 | Author: LeonStoreyTCC&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontColor=#333333;" vertex="1" parent="1">
+      <mxGeometry x="40" y="20" width="3320" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- ZONE 1: EXTERNAL ZONE (Red boundary)                        -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="zone_ext" value="&lt;b&gt;External Zone&lt;/b&gt;" style="swimlane;startSize=30;horizontal=1;fillColor=#FFCCCC;strokeColor=#CC0000;strokeWidth=3;dashed=0;fontColor=#CC0000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="100" width="3320" height="180" as="geometry" />
+    </mxCell>
+
+    <!-- External Users box -->
+    <mxCell id="ext_users" value="&lt;b&gt;External Users (Office Staff)&lt;/b&gt;&lt;br&gt;Browser / Mobile Access&lt;br&gt;&lt;font style=&quot;font-size: 10px; color: #666;&quot;&gt;Office Managers, Drivers, Warehouse Staff&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9999;strokeColor=#CC0000;fontSize=11;verticalAlign=middle;" vertex="1" parent="zone_ext">
+      <mxGeometry x="40" y="50" width="260" height="100" as="geometry" />
+    </mxCell>
+
+    <!-- Internet arrow label -->
+    <mxCell id="ext_internet_lbl" value="Internet Traffic" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=10;fontStyle=2;" vertex="1" parent="zone_ext">
+      <mxGeometry x="330" y="95" width="100" height="20" as="geometry" />
+    </mxCell>
+
+    <!-- Azure AD / Entra ID (in External zone, as the identity boundary) -->
+    <mxCell id="ext_entraid" value="&lt;b&gt;Azure AD B2B / Microsoft Entra ID&lt;/b&gt;&lt;br&gt;Authentication Entry Point&lt;br&gt;&lt;font style=&quot;font-size: 10px; color: #666;&quot;&gt;OAuth 2.0 / OIDC&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9999;strokeColor=#CC0000;fontSize=11;verticalAlign=middle;" vertex="1" parent="zone_ext">
+      <mxGeometry x="460" y="50" width="260" height="100" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- ZONE 2: IDENTITY AND ACCESS ZONE (Yellow/Orange boundary)   -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="zone_iam" value="&lt;b&gt;Identity and Access Zone&lt;/b&gt;" style="swimlane;startSize=30;horizontal=1;fillColor=#FFF8DC;strokeColor=#FF8C00;strokeWidth=3;dashed=0;fontColor=#FF8C00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="300" width="3320" height="220" as="geometry" />
+    </mxCell>
+
+    <!-- Microsoft Entra ID full box -->
+    <mxCell id="iam_entraid" value="&lt;b&gt;Microsoft Entra ID (Azure AD)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• Single Sign-On (SSO)&lt;br&gt;• Identity Provider for all services&lt;br&gt;• B2B Guest Access&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD700;strokeColor=#FF8C00;fontSize=11;verticalAlign=top;" vertex="1" parent="zone_iam">
+      <mxGeometry x="40" y="40" width="260" height="140" as="geometry" />
+    </mxCell>
+
+    <!-- Conditional Access -->
+    <mxCell id="iam_ca" value="&lt;b&gt;Conditional Access Policies&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• MFA Required ✓&lt;br&gt;• Compliant Device Only&lt;br&gt;• Location-based rules&lt;br&gt;• Session controls&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD700;strokeColor=#FF8C00;fontSize=11;verticalAlign=top;" vertex="1" parent="zone_iam">
+      <mxGeometry x="340" y="40" width="240" height="140" as="geometry" />
+    </mxCell>
+
+    <!-- MFA Required badge -->
+    <mxCell id="iam_mfa" value="MFA Required" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FF8C00;strokeColor=#CC6600;fontSize=11;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="zone_iam">
+      <mxGeometry x="620" y="70" width="120" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- RBAC -->
+    <mxCell id="iam_rbac" value="&lt;b&gt;Role-Based Access Control (RBAC)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• Admin&lt;br&gt;• Office Manager&lt;br&gt;• Driver&lt;br&gt;• Warehouse&lt;br&gt;• Analyst&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD700;strokeColor=#FF8C00;fontSize=11;verticalAlign=top;" vertex="1" parent="zone_iam">
+      <mxGeometry x="780" y="40" width="200" height="140" as="geometry" />
+    </mxCell>
+
+    <!-- Service Principal -->
+    <mxCell id="iam_sp" value="&lt;b&gt;Service Principal&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• Fabric Workspace SP&lt;br&gt;• Power Automate SP&lt;br&gt;• Managed Identity enabled&lt;br&gt;• No shared secrets&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFD700;strokeColor=#FF8C00;fontSize=11;verticalAlign=top;" vertex="1" parent="zone_iam">
+      <mxGeometry x="1020" y="40" width="220" height="140" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- ZONE 3: APPLICATION ZONE (Green boundary)                   -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="zone_app" value="&lt;b&gt;Application Zone&lt;/b&gt;" style="swimlane;startSize=30;horizontal=1;fillColor=#E8F5E9;strokeColor=#2E7D32;strokeWidth=3;dashed=0;fontColor=#2E7D32;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="540" width="3320" height="280" as="geometry" />
+    </mxCell>
+
+    <!-- Power Apps Canvas App -->
+    <mxCell id="app_powerapps" value="&lt;b&gt;Power Apps Canvas App&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#C8E6C9;strokeColor=#2E7D32;fontSize=11;fontStyle=1;" vertex="1" parent="zone_app">
+      <mxGeometry x="40" y="40" width="440" height="210" as="geometry" />
+    </mxCell>
+
+    <mxCell id="app_pa_admin" value="&lt;b&gt;Admin&lt;/b&gt; — Full Access&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;All tables R/W, User Mgmt&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A5D6A7;strokeColor=#2E7D32;fontSize=10;" vertex="1" parent="app_powerapps">
+      <mxGeometry x="10" y="35" width="200" height="50" as="geometry" />
+    </mxCell>
+
+    <mxCell id="app_pa_mgr" value="&lt;b&gt;Office Manager&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;R/W Orders, Read Inventory&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A5D6A7;strokeColor=#2E7D32;fontSize=10;" vertex="1" parent="app_powerapps">
+      <mxGeometry x="10" y="95" width="200" height="50" as="geometry" />
+    </mxCell>
+
+    <mxCell id="app_pa_driver" value="&lt;b&gt;Driver&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Read Deliveries, Update Status&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A5D6A7;strokeColor=#2E7D32;fontSize=10;" vertex="1" parent="app_powerapps">
+      <mxGeometry x="220" y="35" width="200" height="50" as="geometry" />
+    </mxCell>
+
+    <mxCell id="app_pa_warehouse" value="&lt;b&gt;Warehouse&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;R/W Inventory, Read Orders&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A5D6A7;strokeColor=#2E7D32;fontSize=10;" vertex="1" parent="app_powerapps">
+      <mxGeometry x="220" y="95" width="200" height="50" as="geometry" />
+    </mxCell>
+
+    <mxCell id="app_pa_tls" value="TLS 1.2+ enforced" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#66BB6A;strokeColor=#2E7D32;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="app_powerapps">
+      <mxGeometry x="110" y="155" width="200" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- Power Automate Flows -->
+    <mxCell id="app_automate" value="&lt;b&gt;Power Automate Flows&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• Managed Identity (no secrets stored)&lt;br&gt;• Order Confirmation Flow&lt;br&gt;• Delivery Notification Flow&lt;br&gt;• Low Inventory Alert Flow&lt;br&gt;• Auto Reorder Trigger Flow&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#2E7D32;fontSize=11;verticalAlign=top;" vertex="1" parent="zone_app">
+      <mxGeometry x="510" y="40" width="250" height="210" as="geometry" />
+    </mxCell>
+
+    <!-- Dataverse Environment -->
+    <mxCell id="app_dataverse" value="&lt;b&gt;Dataverse Environment&lt;/b&gt;" style="swimlane;startSize=25;fillColor=#C8E6C9;strokeColor=#2E7D32;fontSize=11;fontStyle=1;" vertex="1" parent="zone_app">
+      <mxGeometry x="790" y="40" width="480" height="210" as="geometry" />
+    </mxCell>
+
+    <mxCell id="app_dv_tables" value="&lt;b&gt;Table-Level Security&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Orders, Inventory, Deliveries,&lt;br&gt;Plants, Offices, Drivers&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A5D6A7;strokeColor=#2E7D32;fontSize=10;" vertex="1" parent="app_dataverse">
+      <mxGeometry x="10" y="35" width="210" height="60" as="geometry" />
+    </mxCell>
+
+    <mxCell id="app_dv_rls" value="&lt;b&gt;Row-Level Security (RLS)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Office-scoped data isolation&lt;br&gt;Driver sees own deliveries only&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A5D6A7;strokeColor=#2E7D32;fontSize=10;" vertex="1" parent="app_dataverse">
+      <mxGeometry x="240" y="35" width="210" height="60" as="geometry" />
+    </mxCell>
+
+    <mxCell id="app_dv_cls" value="&lt;b&gt;Column-Level Security (CLS)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Sensitive fields masked&lt;br&gt;(contact info, pricing)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A5D6A7;strokeColor=#2E7D32;fontSize=10;" vertex="1" parent="app_dataverse">
+      <mxGeometry x="10" y="110" width="210" height="60" as="geometry" />
+    </mxCell>
+
+    <mxCell id="app_dv_api" value="Dataverse API (TLS 1.2+)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#66BB6A;strokeColor=#2E7D32;fontSize=10;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="app_dataverse">
+      <mxGeometry x="240" y="110" width="210" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- ZONE 4: DATA AND ANALYTICS ZONE (Blue boundary)             -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="zone_data" value="&lt;b&gt;Data and Analytics Zone&lt;/b&gt;" style="swimlane;startSize=30;horizontal=1;fillColor=#E3F2FD;strokeColor=#0D47A1;strokeWidth=3;dashed=0;fontColor=#0D47A1;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="840" width="3320" height="280" as="geometry" />
+    </mxCell>
+
+    <!-- Microsoft Fabric Workspace -->
+    <mxCell id="data_fabric_ws" value="&lt;b&gt;Microsoft Fabric Workspace&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Roles: Admin, Member, Contributor, Viewer&lt;/font&gt;" style="swimlane;startSize=40;fillColor=#BBDEFB;strokeColor=#0D47A1;fontSize=11;fontStyle=1;" vertex="1" parent="zone_data">
+      <mxGeometry x="40" y="40" width="760" height="210" as="geometry" />
+    </mxCell>
+
+    <mxCell id="data_lakehouse" value="&lt;b&gt;Fabric Lakehouse&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Sensitive data encrypted at rest&lt;br&gt;(AES-256)&lt;br&gt;Data classification labels applied&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#0D47A1;fontSize=10;verticalAlign=top;" vertex="1" parent="data_fabric_ws">
+      <mxGeometry x="10" y="50" width="220" height="120" as="geometry" />
+    </mxCell>
+
+    <mxCell id="data_notebooks" value="&lt;b&gt;Fabric Notebooks&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;PySpark KPI Analysis&lt;br&gt;No internet egress&lt;br&gt;Managed Identity access&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#0D47A1;fontSize=10;verticalAlign=top;" vertex="1" parent="data_fabric_ws">
+      <mxGeometry x="250" y="50" width="220" height="120" as="geometry" />
+    </mxCell>
+
+    <mxCell id="data_pipelines" value="&lt;b&gt;Fabric Pipelines&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Every 4h sync from Dataverse&lt;br&gt;Encrypted in transit (TLS)&lt;br&gt;No plaintext credentials&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#0D47A1;fontSize=10;verticalAlign=top;" vertex="1" parent="data_fabric_ws">
+      <mxGeometry x="490" y="50" width="240" height="120" as="geometry" />
+    </mxCell>
+
+    <!-- Power BI -->
+    <mxCell id="data_pbi_ws" value="&lt;b&gt;Power BI (Fabric-integrated)&lt;/b&gt;" style="swimlane;startSize=35;fillColor=#BBDEFB;strokeColor=#0D47A1;fontSize=11;fontStyle=1;" vertex="1" parent="zone_data">
+      <mxGeometry x="840" y="40" width="480" height="210" as="geometry" />
+    </mxCell>
+
+    <mxCell id="data_semantic" value="&lt;b&gt;Semantic Model&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Row-Level Security (RLS) applied&lt;br&gt;Office-scoped data views&lt;br&gt;Scheduled 4h refresh&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#0D47A1;fontSize=10;verticalAlign=top;" vertex="1" parent="data_pbi_ws">
+      <mxGeometry x="10" y="45" width="210" height="130" as="geometry" />
+    </mxCell>
+
+    <mxCell id="data_pbi_reports" value="&lt;b&gt;Power BI Reports&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Viewer role access&lt;br&gt;Inventory dashboard&lt;br&gt;Delivery KPI dashboard&lt;br&gt;No direct data access&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#0D47A1;fontSize=10;verticalAlign=top;" vertex="1" parent="data_pbi_ws">
+      <mxGeometry x="250" y="45" width="210" height="130" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- ZONE 5: GOVERNANCE AND MONITORING ZONE (Dark Grey boundary) -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="zone_gov" value="&lt;b&gt;Governance and Monitoring Zone&lt;/b&gt;" style="swimlane;startSize=30;horizontal=1;fillColor=#ECEFF1;strokeColor=#37474F;strokeWidth=3;dashed=0;fontColor=#37474F;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1140" width="3320" height="220" as="geometry" />
+    </mxCell>
+
+    <!-- Purview -->
+    <mxCell id="gov_purview" value="&lt;b&gt;Microsoft Purview&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• Data Classification &amp;amp; Sensitivity Labels&lt;br&gt;• Data Lineage &amp;amp; Cataloguing&lt;br&gt;• Information Protection Policies&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B0BEC5;strokeColor=#37474F;fontSize=11;verticalAlign=top;" vertex="1" parent="zone_gov">
+      <mxGeometry x="40" y="45" width="250" height="140" as="geometry" />
+    </mxCell>
+
+    <!-- Azure Monitor -->
+    <mxCell id="gov_monitor" value="&lt;b&gt;Azure Monitor /&lt;br&gt;Fabric Capacity Metrics&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• Performance monitoring&lt;br&gt;• Capacity alerts&lt;br&gt;• Cost management&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B0BEC5;strokeColor=#37474F;fontSize=11;verticalAlign=top;" vertex="1" parent="zone_gov">
+      <mxGeometry x="310" y="45" width="230" height="140" as="geometry" />
+    </mxCell>
+
+    <!-- Audit Logs -->
+    <mxCell id="gov_audit" value="&lt;b&gt;Audit Logs&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Power Platform Admin Center&lt;br&gt;• All user actions logged&lt;br&gt;• Data access tracked&lt;br&gt;• 90-day retention&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B0BEC5;strokeColor=#37474F;fontSize=11;verticalAlign=top;" vertex="1" parent="zone_gov">
+      <mxGeometry x="560" y="45" width="230" height="140" as="geometry" />
+    </mxCell>
+
+    <!-- DLP Policies -->
+    <mxCell id="gov_dlp" value="&lt;b&gt;DLP Policies&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Power Platform Admin Center&lt;br&gt;• Block external data sharing&lt;br&gt;• Prevent connector misuse&lt;br&gt;• Business data group rules&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B0BEC5;strokeColor=#37474F;fontSize=11;verticalAlign=top;" vertex="1" parent="zone_gov">
+      <mxGeometry x="810" y="45" width="230" height="140" as="geometry" />
+    </mxCell>
+
+    <!-- Security Alerts -->
+    <mxCell id="gov_alerts" value="&lt;b&gt;Security Team Alerts&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• Anomaly detection&lt;br&gt;• Breach notification&lt;br&gt;• Compliance reporting&lt;br&gt;• Incident response&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#78909C;strokeColor=#37474F;fontSize=11;verticalAlign=top;fontColor=#FFFFFF;" vertex="1" parent="zone_gov">
+      <mxGeometry x="1060" y="45" width="230" height="140" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SECURITY DATA FLOW ARROWS                                   -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- HTTPS / OAuth 2.0: External Users → Entra ID -->
+    <mxCell id="arrow_ext_iam1" value="HTTPS / OAuth 2.0" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#CC0000;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#CC0000;" edge="1" source="ext_users" target="ext_entraid" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Entra ID → IAM Zone (Token Validation) -->
+    <mxCell id="arrow_ext_iam2" value="HTTPS / OAuth 2.0" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#FF8C00;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#FF8C00;" edge="1" source="ext_entraid" target="iam_entraid" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- IAM → Power Apps (Token Validation) -->
+    <mxCell id="arrow_iam_app" value="Token Validation" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#2E7D32;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#2E7D32;" edge="1" source="iam_rbac" target="app_powerapps" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Power Apps → Dataverse (Dataverse API TLS) -->
+    <mxCell id="arrow_app_dv" value="Dataverse API (TLS 1.2+)" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#2E7D32;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#2E7D32;" edge="1" source="app_powerapps" target="app_dataverse" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Power Automate → Dataverse (Managed Identity) -->
+    <mxCell id="arrow_auto_dv" value="Managed Identity (no secrets)" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#2E7D32;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#2E7D32;" edge="1" source="app_automate" target="app_dataverse" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Power Automate → Fabric (Managed Identity) -->
+    <mxCell id="arrow_auto_fabric" value="Managed Identity (no secrets)" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#0D47A1;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#0D47A1;" edge="1" source="app_automate" target="data_lakehouse" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Dataverse → Fabric Lakehouse (Encrypted pipeline sync) -->
+    <mxCell id="arrow_dv_lakehouse" value="Encrypted pipeline sync" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#0D47A1;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#0D47A1;" edge="1" source="app_dataverse" target="data_lakehouse" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Semantic Model → Power BI Reports (RLS enforced) -->
+    <mxCell id="arrow_sem_pbi" value="RLS enforced" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#0D47A1;strokeWidth=2;fontSize=10;fontStyle=1;fontColor=#0D47A1;" edge="1" source="data_semantic" target="data_pbi_reports" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- All zones → Governance (Audit events) — using labeled arrows -->
+    <mxCell id="arrow_app_gov" value="Audit events" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#37474F;strokeWidth=1;fontSize=10;fontColor=#37474F;" edge="1" source="app_powerapps" target="gov_audit" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="arrow_data_gov" value="Audit events" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#37474F;strokeWidth=1;fontSize=10;fontColor=#37474F;" edge="1" source="data_fabric_ws" target="gov_audit" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="arrow_iam_gov" value="Audit events" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#37474F;strokeWidth=1;fontSize=10;fontColor=#37474F;" edge="1" source="iam_ca" target="gov_audit" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SECURITY ROLES TABLE                                        -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="roles_table_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1400" width="1880" height="300" as="geometry" />
+    </mxCell>
+
+    <mxCell id="roles_title" value="&lt;b&gt;Security Roles &amp;amp; Access Levels&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1400" width="1880" height="35" as="geometry" />
+    </mxCell>
+
+    <!-- Table header row -->
+    <mxCell id="tbl_h_role" value="&lt;b&gt;Role&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;strokeColor=#333333;fontColor=#FFFFFF;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1435" width="180" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_h_pa" value="&lt;b&gt;Power Apps&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;strokeColor=#333333;fontColor=#FFFFFF;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="220" y="1435" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_h_dv" value="&lt;b&gt;Dataverse&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;strokeColor=#333333;fontColor=#FFFFFF;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="500" y="1435" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_h_fabric" value="&lt;b&gt;Microsoft Fabric&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;strokeColor=#333333;fontColor=#FFFFFF;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="780" y="1435" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_h_pbi" value="&lt;b&gt;Power BI&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;strokeColor=#333333;fontColor=#FFFFFF;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="1435" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_h_notes" value="&lt;b&gt;Notes&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#666666;strokeColor=#333333;fontColor=#FFFFFF;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="1340" y="1435" width="580" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- Row 1: Admin -->
+    <mxCell id="tbl_r1_role" value="&lt;b&gt;Admin&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFCCCC;strokeColor=#999999;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1475" width="180" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r1_pa" value="Full Access (all screens)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="220" y="1475" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r1_dv" value="System Admin role — all tables R/W" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="500" y="1475" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r1_fabric" value="Workspace Admin" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="780" y="1475" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r1_pbi" value="Admin — full report mgmt" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="1475" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r1_notes" value="Full system access — tightly controlled; MFA + CA enforced" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1340" y="1475" width="580" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- Row 2: Office Manager -->
+    <mxCell id="tbl_r2_role" value="&lt;b&gt;Office Manager&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#CCE5FF;strokeColor=#999999;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1515" width="180" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r2_pa" value="Home, Orders (R/W), Inventory (R), Deliveries (R)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="220" y="1515" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r2_dv" value="R/W Orders; Read Inventory, Offices" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="500" y="1515" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r2_fabric" value="Viewer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="780" y="1515" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r2_pbi" value="Viewer (office-scoped RLS)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="1515" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r2_notes" value="Row-level security limits view to own office data" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1340" y="1515" width="580" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- Row 3: Driver -->
+    <mxCell id="tbl_r3_role" value="&lt;b&gt;Driver&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF3CD;strokeColor=#999999;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1555" width="180" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r3_pa" value="Deliveries screen (Read + Update Status)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="220" y="1555" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r3_dv" value="Read Deliveries (own records only)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="500" y="1555" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r3_fabric" value="No access" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFEEEE;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="780" y="1555" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r3_pbi" value="No access" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFEEEE;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="1555" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r3_notes" value="Minimal privilege — can only update own delivery status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1340" y="1555" width="580" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- Row 4: Warehouse -->
+    <mxCell id="tbl_r4_role" value="&lt;b&gt;Warehouse&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D4EDDA;strokeColor=#999999;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1595" width="180" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r4_pa" value="Inventory (R/W), Orders (Read)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="220" y="1595" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r4_dv" value="R/W Inventory; Read Orders" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="500" y="1595" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r4_fabric" value="No access" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFEEEE;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="780" y="1595" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r4_pbi" value="No access" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFEEEE;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="1595" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r4_notes" value="Stock management only; no delivery or analytics access" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1340" y="1595" width="580" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- Row 5: Analyst -->
+    <mxCell id="tbl_r5_role" value="&lt;b&gt;Analyst&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E2D9F3;strokeColor=#999999;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="40" y="1635" width="180" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r5_pa" value="No access" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFEEEE;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="220" y="1635" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r5_dv" value="Read-only (aggregated data)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="500" y="1635" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r5_fabric" value="Contributor (Lakehouse + Notebooks)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="780" y="1635" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r5_pbi" value="Contributor (build + publish reports)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1060" y="1635" width="280" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="tbl_r5_notes" value="Analytics only — no write access to operational data" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1340" y="1635" width="580" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- LEGEND BOX (bottom-right)                                   -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <mxCell id="legend_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#666666;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="2000" y="1400" width="1360" height="460" as="geometry" />
+    </mxCell>
+
+    <mxCell id="legend_title" value="&lt;b&gt;&lt;font style=&quot;font-size: 13px;&quot;&gt;Legend&lt;/font&gt;&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;" vertex="1" parent="1">
+      <mxGeometry x="2000" y="1400" width="1360" height="35" as="geometry" />
+    </mxCell>
+
+    <!-- Zone colour key -->
+    <mxCell id="leg_z_title" value="&lt;b&gt;Zone Colours&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="2020" y="1440" width="200" height="25" as="geometry" />
+    </mxCell>
+
+    <mxCell id="leg_z_ext" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCCCC;strokeColor=#CC0000;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="2020" y="1470" width="40" height="25" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_z_ext_lbl" value="External Zone" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="2070" y="1470" width="150" height="25" as="geometry" />
+    </mxCell>
+
+    <mxCell id="leg_z_iam" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF8DC;strokeColor=#FF8C00;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="2020" y="1503" width="40" height="25" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_z_iam_lbl" value="Identity &amp; Access Zone" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="2070" y="1503" width="160" height="25" as="geometry" />
+    </mxCell>
+
+    <mxCell id="leg_z_app" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="2020" y="1536" width="40" height="25" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_z_app_lbl" value="Application Zone" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="2070" y="1536" width="150" height="25" as="geometry" />
+    </mxCell>
+
+    <mxCell id="leg_z_data" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#0D47A1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="2020" y="1569" width="40" height="25" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_z_data_lbl" value="Data &amp; Analytics Zone" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="2070" y="1569" width="160" height="25" as="geometry" />
+    </mxCell>
+
+    <mxCell id="leg_z_gov" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECEFF1;strokeColor=#37474F;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="2020" y="1602" width="40" height="25" as="geometry" />
+    </mxCell>
+    <mxCell id="leg_z_gov_lbl" value="Governance &amp; Monitoring Zone" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="2070" y="1602" width="200" height="25" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow types -->
+    <mxCell id="leg_a_title" value="&lt;b&gt;Arrow Types&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="2320" y="1440" width="200" height="25" as="geometry" />
+    </mxCell>
+
+    <mxCell id="leg_a_data" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#0066CC;strokeWidth=2;" edge="1" parent="1">
+      <mxGeometry x="0" y="0" width="120" height="20" as="geometry">
+        <mxPoint x="2320" y="1485" as="sourcePoint" />
+        <mxPoint x="2440" y="1485" as="targetPoint" />
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="leg_a_data_lbl" value="Data Flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="2455" y="1473" width="100" height="25" as="geometry" />
+    </mxCell>
+
+    <mxCell id="leg_a_auth" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#FF8C00;strokeWidth=2;" edge="1" parent="1">
+      <mxGeometry x="0" y="0" width="120" height="20" as="geometry">
+        <mxPoint x="2320" y="1520" as="sourcePoint" />
+        <mxPoint x="2440" y="1520" as="targetPoint" />
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="leg_a_auth_lbl" value="Auth Flow (OAuth 2.0 / Token)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="2455" y="1508" width="200" height="25" as="geometry" />
+    </mxCell>
+
+    <mxCell id="leg_a_audit" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;dashed=1;strokeColor=#37474F;strokeWidth=1;" edge="1" parent="1">
+      <mxGeometry x="0" y="0" width="120" height="20" as="geometry">
+        <mxPoint x="2320" y="1555" as="sourcePoint" />
+        <mxPoint x="2440" y="1555" as="targetPoint" />
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="leg_a_audit_lbl" value="Audit / Monitoring Flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="2455" y="1543" width="200" height="25" as="geometry" />
+    </mxCell>
+
+    <mxCell id="leg_a_enc" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeColor=#2E7D32;strokeWidth=2;" edge="1" parent="1">
+      <mxGeometry x="0" y="0" width="120" height="20" as="geometry">
+        <mxPoint x="2320" y="1590" as="sourcePoint" />
+        <mxPoint x="2440" y="1590" as="targetPoint" />
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="leg_a_enc_lbl" value="Encrypted API / TLS 1.2+" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="2455" y="1578" width="200" height="25" as="geometry" />
+    </mxCell>
+
+    <!-- Key Security Controls annotation -->
+    <mxCell id="sec_controls" value="&lt;b&gt;Key Security Controls&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;• All traffic encrypted (TLS 1.2+)&lt;br&gt;• MFA enforced for all users&lt;br&gt;• Managed Identity — no stored secrets&lt;br&gt;• Row-level &amp;amp; column-level security in Dataverse&lt;br&gt;• RLS enforced in Power BI Semantic Model&lt;br&gt;• All data at rest encrypted (AES-256)&lt;br&gt;• Continuous audit logging&lt;br&gt;• DLP policies prevent data exfiltration&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;strokeWidth=2;fontSize=11;verticalAlign=top;align=left;" vertex="1" parent="1">
+      <mxGeometry x="2700" y="1400" width="660" height="260" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>
