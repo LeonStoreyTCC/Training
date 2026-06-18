@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-04-24T00:00:00.000Z" agent="draw.io" version="21.0.0">
+  <diagram id="bpmn-plant-inventory" name="Plant Order Process">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ==================== POOL 1: Customer (Office Staff) ==================== -->
+        <mxCell id="2" value="Customer (Office Staff)"
+          style="swimlane;startSize=30;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#1e4d78;fontStyle=1;fontSize=13;swimlaneLine=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="960" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- Lane: Office Manager -->
+        <mxCell id="3" value="Office Manager"
+          style="swimlane;startSize=100;horizontal=0;fillColor=#ffffff;strokeColor=#6c8ebf;fontColor=#1e4d78;fontSize=11;"
+          vertex="1" parent="2">
+          <mxGeometry x="30" y="0" width="930" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- Start Event: Submit Plant Order via Power Apps -->
+        <mxCell id="4" value="Submit Plant Order&#xa;via Power Apps"
+          style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=general;verticalLabelPosition=bottom;verticalAlign=top;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;"
+          vertex="1" parent="3">
+          <mxGeometry x="140" y="50" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- End Event: Order Confirmed / Inventory Updated -->
+        <mxCell id="5" value="Order Confirmed /&#xa;Inventory Updated"
+          style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;"
+          vertex="1" parent="3">
+          <mxGeometry x="860" y="50" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== POOL 2: Plant Inventory System ==================== -->
+        <mxCell id="6" value="Plant Inventory System&#xa;(Power Apps / Dataverse)"
+          style="swimlane;startSize=30;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#4a2060;fontStyle=1;fontSize=13;swimlaneLine=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="210" width="960" height="340" as="geometry" />
+        </mxCell>
+
+        <!-- Lane: Order Management -->
+        <mxCell id="7" value="Order Management"
+          style="swimlane;startSize=100;horizontal=0;fillColor=#ffffff;strokeColor=#9673a6;fontColor=#4a2060;fontSize=11;"
+          vertex="1" parent="6">
+          <mxGeometry x="30" y="0" width="930" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- Task: Order Recorded in Dataverse -->
+        <mxCell id="8" value="Order Recorded&#xa;in Dataverse"
+          style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#dae8fc;strokeColor=#6c8ebf;"
+          vertex="1" parent="7">
+          <mxGeometry x="140" y="35" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Lane: Inventory Management -->
+        <mxCell id="9" value="Inventory Management"
+          style="swimlane;startSize=100;horizontal=0;fillColor=#ffffff;strokeColor=#9673a6;fontColor=#4a2060;fontSize=11;"
+          vertex="1" parent="6">
+          <mxGeometry x="30" y="130" width="930" height="210" as="geometry" />
+        </mxCell>
+
+        <!-- Task: Inventory Reserved, Stock Decremented -->
+        <mxCell id="10" value="Inventory Reserved,&#xa;Stock Decremented"
+          style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#dae8fc;strokeColor=#6c8ebf;"
+          vertex="1" parent="9">
+          <mxGeometry x="140" y="55" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Gateway: Stock Sufficient? -->
+        <mxCell id="11" value="Stock&#xa;Sufficient?"
+          style="rhombus;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rhombusPerimeter;background=gateway;symbol=exclusiveGw;verticalLabelPosition=bottom;verticalAlign=top;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;"
+          vertex="1" parent="9">
+          <mxGeometry x="420" y="55" width="60" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- End Event: Order Fulfilled (YES path) -->
+        <mxCell id="12" value="Order Fulfilled"
+          style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;"
+          vertex="1" parent="9">
+          <mxGeometry x="570" y="60" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Task: Flag Low Stock / Trigger Reorder Alert (NO path) -->
+        <mxCell id="13" value="Flag Low Stock /&#xa;Trigger Reorder Alert"
+          style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#ffe6cc;strokeColor=#d79b00;"
+          vertex="1" parent="9">
+          <mxGeometry x="420" y="130" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- End Event: Reorder Required -->
+        <mxCell id="14" value="Reorder Required"
+          style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;verticalLabelPosition=bottom;verticalAlign=top;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;"
+          vertex="1" parent="9">
+          <mxGeometry x="680" y="135" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== MESSAGE FLOWS (cross-pool, dashed) ==================== -->
+
+        <!-- Start Event → Order Recorded in Dataverse -->
+        <mxCell id="15"
+          style="endArrow=open;endFill=0;dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;startArrow=circle;startFill=1;"
+          edge="1" source="4" target="8" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Order Recorded → Order Confirmed (confirmation back to customer) -->
+        <mxCell id="21"
+          style="endArrow=open;endFill=0;dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;startArrow=circle;startFill=1;"
+          edge="1" source="8" target="5" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== SEQUENCE FLOWS ==================== -->
+
+        <!-- Order Recorded → Inventory Reserved, Stock Decremented -->
+        <mxCell id="16"
+          style="endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;html=1;"
+          edge="1" source="8" target="10" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Inventory Reserved → Stock Sufficient? gateway -->
+        <mxCell id="17"
+          style="endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;html=1;"
+          edge="1" source="10" target="11" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Gateway → Order Fulfilled (YES) -->
+        <mxCell id="18" value="Yes"
+          style="endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;html=1;"
+          edge="1" source="11" target="12" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Gateway → Flag Low Stock (NO) -->
+        <mxCell id="19" value="No"
+          style="endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;html=1;"
+          edge="1" source="11" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Flag Low Stock → Reorder Required -->
+        <mxCell id="20"
+          style="endArrow=block;endFill=1;edgeStyle=orthogonalEdgeStyle;html=1;"
+          edge="1" source="13" target="14" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== LEGEND ==================== -->
+        <mxCell id="22" value="Legend"
+          style="swimlane;startSize=30;horizontal=1;fillColor=#f9f9f9;strokeColor=#999999;fontStyle=1;fontSize=12;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="610" width="520" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- Legend: Start Event icon -->
+        <mxCell id="23" value=""
+          style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=general;fillColor=#d5e8d4;strokeColor=#82b366;"
+          vertex="1" parent="22">
+          <mxGeometry x="20" y="50" width="32" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="Start Event"
+          style="text;html=1;align=left;verticalAlign=middle;"
+          vertex="1" parent="22">
+          <mxGeometry x="62" y="50" width="150" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Legend: End Event icon -->
+        <mxCell id="25" value=""
+          style="ellipse;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;fillColor=#f8cecc;strokeColor=#b85450;"
+          vertex="1" parent="22">
+          <mxGeometry x="20" y="100" width="32" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="End Event"
+          style="text;html=1;align=left;verticalAlign=middle;"
+          vertex="1" parent="22">
+          <mxGeometry x="62" y="100" width="150" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Legend: Task icon -->
+        <mxCell id="27" value="Task"
+          style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#dae8fc;strokeColor=#6c8ebf;"
+          vertex="1" parent="22">
+          <mxGeometry x="10" y="150" width="60" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="28" value="Task / Activity"
+          style="text;html=1;align=left;verticalAlign=middle;"
+          vertex="1" parent="22">
+          <mxGeometry x="80" y="150" width="150" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Legend: Alert Task icon -->
+        <mxCell id="33" value="Alert"
+          style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#ffe6cc;strokeColor=#d79b00;"
+          vertex="1" parent="22">
+          <mxGeometry x="10" y="200" width="60" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="Alert / Notification Task"
+          style="text;html=1;align=left;verticalAlign=middle;"
+          vertex="1" parent="22">
+          <mxGeometry x="80" y="200" width="180" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Legend: Exclusive Gateway icon -->
+        <mxCell id="29" value=""
+          style="rhombus;html=1;shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rhombusPerimeter;background=gateway;symbol=exclusiveGw;fillColor=#fff2cc;strokeColor=#d6b656;"
+          vertex="1" parent="22">
+          <mxGeometry x="280" y="48" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="30" value="Exclusive Gateway (XOR)"
+          style="text;html=1;align=left;verticalAlign=middle;"
+          vertex="1" parent="22">
+          <mxGeometry x="330" y="48" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Legend: Sequence Flow -->
+        <mxCell id="31" value="&#x2192; Sequence Flow (within pool)"
+          style="text;html=1;align=left;verticalAlign=middle;"
+          vertex="1" parent="22">
+          <mxGeometry x="270" y="103" width="240" height="32" as="geometry" />
+        </mxCell>
+
+        <!-- Legend: Message Flow -->
+        <mxCell id="32" value="&#x21E2; Message Flow (cross-pool, dashed)"
+          style="text;html=1;align=left;verticalAlign=middle;"
+          vertex="1" parent="22">
+          <mxGeometry x="270" y="148" width="240" height="32" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
